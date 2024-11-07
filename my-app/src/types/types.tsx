@@ -1,4 +1,4 @@
-import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO} from "../redux/TodoReducer";
+import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO} from "@/redux/TodoReducer";
 
 export type TodoType = {
     todo: string;

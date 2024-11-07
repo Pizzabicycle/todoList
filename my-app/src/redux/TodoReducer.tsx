@@ -1,4 +1,4 @@
-import {TodoType, TodoListType, TodoActions} from "../types/types";
+import {TodoType, TodoListType, TodoActions} from "@/types/types";
 
 //Data
 const todoList: TodoListType = {
