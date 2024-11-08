@@ -1,4 +1,5 @@
 import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO} from "@/redux/TodoReducer";
+import {GET_TODOKEY, INCREASE_TODOKEY} from "@/redux/TodoKeyReducer";
 
 export type TodoType = {
     todo: string;
@@ -28,9 +29,11 @@ interface DeleteTodoAction {
     todo: TodoType;
 }
 
-export type TodoActions = GetTodoAction | AddTodoAction | UpdateTodoAction | DeleteTodoAction;
+export type GetAction = GetTodoAction;
+export type SetActions = AddTodoAction | UpdateTodoAction | DeleteTodoAction;
 
-export type ReducerParamType={
-    state : StateType,
-    action : ActionType
+export type TodoKeyAction = {
+    type: typeof GET_TODOKEY | typeof INCREASE_TODOKEY,
+    todoKey?: number
 }
+
