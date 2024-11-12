@@ -1,5 +1,6 @@
 import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO} from "@/redux/TodoReducer";
 import {GET_TODOKEY, INCREASE_TODOKEY} from "@/redux/TodoKeyReducer";
+import React from "react";
 
 export type TodoType = {
     todo: string;
@@ -37,3 +38,6 @@ export type TodoKeyAction = {
     todoKey?: number
 }
 
+export type ReduxProviderType = {
+    children: React.ReactNode;
+}
