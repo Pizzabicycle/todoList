@@ -1,6 +1,6 @@
-import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO} from "@/redux/TodoReducer";
+import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, addTodo} from "@/redux/TodoReducer";
 import {GET_TODOKEY, INCREASE_TODOKEY} from "@/redux/TodoKeyReducer";
-import React from "react";
+import React, {Dispatch} from "react";
 
 export type TodoType = {
     todo: string;
@@ -11,21 +11,21 @@ export type TodoListType={
     todoList: Array<TodoType>;
 }
 
-interface GetTodoAction {
+export interface GetTodoAction {
     type: typeof GET_TODO;
 }
 
-interface AddTodoAction {
+export interface AddTodoAction {
     type: typeof ADD_TODO;
     todo: TodoType;
 }
 
-interface UpdateTodoAction {
+export interface UpdateTodoAction {
     type: typeof UPDATE_TODO;
     todo: TodoType;
 }
 
-interface DeleteTodoAction {
+export interface DeleteTodoAction {
     type: typeof DELETE_TODO;
     todo: TodoType;
 }
@@ -40,4 +40,15 @@ export type TodoKeyAction = {
 
 export type ReduxProviderType = {
     children: React.ReactNode;
+}
+
+type DispatchTodoAction = (todo: TodoType) => void
+
+export type TodoContainerProps = {
+    curTodoKey:number,
+    todoList: TodoType[],
+    dispatchAddTodo: DispatchTodoAction;
+    dispatchUpdateTodo: DispatchTodoAction;
+    dispatchDeleteTodo: DispatchTodoAction;
+    dispatchAddTodoKey:(todoKey:number) => void;
 }
