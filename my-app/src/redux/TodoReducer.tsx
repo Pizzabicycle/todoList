@@ -10,6 +10,8 @@ export const GET_TODO  = 'todo/GET_TODO' as const;
 export const ADD_TODO = 'todo/ADD_TODO' as const;
 export const UPDATE_TODO = 'todo/UPDATE_TODO' as const;
 export const DELETE_TODO = 'todo/DELETE_TODO' as const;
+export const UPDATE_ISCHECKED = 'todo/UPDATE_ISCHECKED' as const;
+
 
 //Action Function
 export const getTodoList  = () : GetAction => ({
@@ -31,12 +33,13 @@ export const deleteTodo = (todo : TodoType) : SetActions => ({
     todo
 });
 
+export const updateIsChecked = (todo : TodoType) : SetActions => ({
+    type: UPDATE_ISCHECKED,
+    todo
+});
+
 export const todoReducer = (state: TodoListType = todoList, action : GetAction | SetActions ):TodoListType   => {
     switch (action.type) {
-        case GET_TODO:
-            return {
-                ...state
-            };
         case ADD_TODO:
             return {
                 ...state,
@@ -44,7 +47,7 @@ export const todoReducer = (state: TodoListType = todoList, action : GetAction |
             };
         case UPDATE_TODO:
             return {
-                ...state.todoList,
+                ...state,
                 todoList: state.todoList.map(todo => todo.todoKey === action.todo.todoKey
                                                               ? {...action.todo}
                                                               : todo
@@ -55,6 +58,16 @@ export const todoReducer = (state: TodoListType = todoList, action : GetAction |
                 ...state,
                 todoList: state.todoList.filter(todo => todo.todoKey !== action.todo.todoKey)
             };
+
+        case UPDATE_ISCHECKED:
+            return {
+                ...state,
+                todoList: state.todoList.map(todo => todo.todoKey === action.todo.todoKey
+                                                ? {...todo, isChecked: action.todo.isChecked}
+                                                : todo
+                                            )
+            };
+
         default:
             return state;
     }

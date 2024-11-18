@@ -1,10 +1,13 @@
-import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, addTodo} from "@/redux/TodoReducer";
-import {GET_TODOKEY, INCREASE_TODOKEY} from "@/redux/TodoKeyReducer";
-import React, {Dispatch} from "react";
+import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, UPDATE_ISCHECKED} from "@/redux/TodoReducer";
+import {INCREASE_TODOKEY} from "@/redux/TodoKeyReducer";
+import React from "react";
+import TodoContainer from "@/app/component/TodoContainer";
+import ToodoTemplete from "@/app/component/ToodoTemplete";
 
 export type TodoType = {
     todo: string;
     todoKey: number;
+    isChecked: boolean;
 };
 
 export type TodoListType={
@@ -30,12 +33,16 @@ export interface DeleteTodoAction {
     todo: TodoType;
 }
 
+export interface UpdateIscheckedAction {
+    type: typeof UPDATE_ISCHECKED;
+    todo: TodoType;
+}
+
 export type GetAction = GetTodoAction;
-export type SetActions = AddTodoAction | UpdateTodoAction | DeleteTodoAction;
+export type SetActions = AddTodoAction | UpdateTodoAction | DeleteTodoAction | UpdateIscheckedAction;
 
 export type TodoKeyAction = {
-    type: typeof GET_TODOKEY | typeof INCREASE_TODOKEY,
-    todoKey?: number
+    type: typeof INCREASE_TODOKEY,
 }
 
 export type ReduxProviderType = {
@@ -45,10 +52,17 @@ export type ReduxProviderType = {
 type DispatchTodoAction = (todo: TodoType) => void
 
 export type TodoContainerProps = {
+    deleteButtonClick:() => void;
+}
+
+export type ToodoTempleteProps = {
     curTodoKey:number,
     todoList: TodoType[],
     dispatchAddTodo: DispatchTodoAction;
     dispatchUpdateTodo: DispatchTodoAction;
     dispatchDeleteTodo: DispatchTodoAction;
-    dispatchAddTodoKey:(todoKey:number) => void;
+    dispatchUpdateIschecked: DispatchTodoAction;
+    dispatchAddTodoKey:() => void;
+    deleteButtonClick:() => void;
 }
+

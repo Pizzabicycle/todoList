@@ -1,54 +1,75 @@
 import React, {useState} from 'react';
-import {TodoContainerProps, TodoType} from "@/types/types";
+import {TodoContainerProps, TodoType, ToodoTempleteProps} from "@/types/types";
 
-const ToodoTemplete = ({curTodoKey, todoList, dispatchAddTodo, dispatchUpdateTodo, dispatchDeleteTodo, dispatchAddTodoKey} : TodoContainerProps) => {
-    const [chkKey, setChkKey] = useState<number>(0);
-    const [isChecked, setIsChecked] = useState<boolean>(false);
+const ToodoTemplete = ({curTodoKey, todoList, dispatchAddTodo, dispatchUpdateTodo, dispatchDeleteTodo, dispatchUpdateIschecked, dispatchAddTodoKey, deleteButtonClick} : ToodoTempleteProps) => {
     const [text, setText] = useState<string>("");
-    const [readOnly, setReadOnly] = useState<boolean>(false);
-    const [todos, setTodos] = useState<TodoType[]>(todoList);
-    const [currentTodoKey, setCurrentTodoKey] = useState<number>(curTodoKey)
 
-    const editButtonClick = () => {
+    const todos: TodoType[]= todoList;
+    const currentTodoKey= curTodoKey;
+
+    const updateButtonClick = () => {
         alert("수정되었습니다.");
-        setReadOnly(false);
     };
 
     const addButtonClick= () => {
-        dispatchAddTodo({todoKey:currentTodoKey, todo:text});
-        dispatchAddTodoKey(currentTodoKey);
+        dispatchAddTodo({todoKey:currentTodoKey, todo:text, isChecked:false});
+        dispatchAddTodoKey();
         setText("");
-        console.log(todos);
    };
 
-    const setText_EnterEvent = (event: { key: string; }) => {
-        if (event.key === 'Enter') {
-            setText(text);
-            setReadOnly(true);
+    const addTodoEnter = (e: React.KeyboardEvent<HTMLInputElement> ) => {
+        if (e.key === 'Enter') {
+            dispatchAddTodo({todoKey:currentTodoKey, todo:text, isChecked:false});
+            dispatchAddTodoKey();
+            setText("");
+            alert("입력되었습니다.")
         }
+    };
+
+    const updateTodoEnter = (e: React.KeyboardEvent<HTMLInputElement>, todo:TodoType) => {
+        if (e.key === 'Enter'){
+            if(confirm("수정하시겠습니까?"))
+                dispatchUpdateTodo({...todo, todo: e.currentTarget.value});
+        }
+    };
+
+    const isCheckedOnChange= (todo: TodoType) => {
+        dispatchUpdateIschecked({...todo, isChecked: !todo.isChecked});
     };
 
     return (
         <React.Fragment>
+            <div style={{display: 'flex', alignItems: 'center', gap: '10px', marginLeft: '10px'}}>
+                <input type="text"
+                       value={text}
+                       onChange={(e) => setText(e.target.value)}
+                       placeholder="Enter text"
+                       style={{padding: '5px', width: '200px', color: 'black'}}
+                       onKeyDown={(e) => addTodoEnter(e)}
+                />
+                <button onClick={addButtonClick}
+                        style={{padding: '5px 10px', marginBottom: '10px'}}>
+                    Save
+                </button>
+            </div>
             <div>
                 {todos.length > 0 ? todos.map(todo =>
-                        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                        <div key={todo.todoKey}
+                             style={{display: 'flex', alignItems: 'center', gap: '10px', marginLeft: '10px', marginBottom: '5px'}}>
                             <input type="checkbox"
-                                   key={todo.todoKey}
-                                   checked={isChecked}
-                                   onChange={(e) => setIsChecked(e.target.checked)}
+                                   checked={todo.isChecked}
+                                   onChange={() => isCheckedOnChange(todo)}
                             />
 
                             <input type="text"
                                    value={todo.todo}
-                                   readOnly={readOnly}
-                                   onChange={(e) => setText(e.target.value)}
+                                   onChange={(e) => (e.target.value)}
                                    placeholder="Enter text"
                                    style={{padding: '5px', width: '200px', color: 'black'}}
-                                   onKeyDown={setText_EnterEvent}
+                                   onKeyDown={(e) => updateTodoEnter(e, todo)}
                             />
 
-                            <button onClick={editButtonClick}
+                            <button onClick={updateButtonClick}
                                     style={{padding: '5px 10px'}}>
                                 Edit
                             </button>
@@ -56,26 +77,6 @@ const ToodoTemplete = ({curTodoKey, todoList, dispatchAddTodo, dispatchUpdateTod
                     )
                     : null
                 }
-            </div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                <input type="checkbox"
-                       key={currentTodoKey}
-                       checked={isChecked}
-                       onChange={(e) => setIsChecked(e.target.checked)}
-                />
-
-                <input type="text"
-                       value={text}
-                       readOnly={readOnly}
-                       onChange={(e) => setText(e.target.value)}
-                       placeholder="Enter text"
-                       style={{padding: '5px', width: '200px', color: 'black'}}
-                       onKeyDown={setText_EnterEvent}
-                />
-                <button onClick={addButtonClick}
-                        style={{padding: '5px 10px'}}>
-                    Save
-                </button>
             </div>
         </React.Fragment>
     );
