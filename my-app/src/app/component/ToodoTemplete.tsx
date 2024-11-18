@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TodoContainerProps, TodoType, ToodoTempleteProps} from "@/types/types";
+import {TodoType, ToodoTempleteProps} from "@/types/types";
 
 const ToodoTemplete = ({curTodoKey, todoList, dispatchAddTodo, dispatchUpdateTodo, dispatchDeleteTodo, dispatchUpdateIschecked, dispatchAddTodoKey, deleteButtonClick} : ToodoTempleteProps) => {
     const [text, setText] = useState<string>("");

@@ -1,8 +1,6 @@
 import {GET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, UPDATE_ISCHECKED} from "@/redux/TodoReducer";
 import {INCREASE_TODOKEY} from "@/redux/TodoKeyReducer";
 import React from "react";
-import TodoContainer from "@/app/component/TodoContainer";
-import ToodoTemplete from "@/app/component/ToodoTemplete";
 
 export type TodoType = {
     todo: string;
